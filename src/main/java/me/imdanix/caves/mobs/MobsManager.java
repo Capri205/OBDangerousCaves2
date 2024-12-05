@@ -68,6 +68,7 @@ public class MobsManager implements Manager<CustomMob>, Listener, Tickable, Conf
     private WeightedPool<CustomMob> mobsPool;
 
     private Set<EntityType> replaceTypes;
+    private int yMin;
     private int yMax;
     private double chance;
     private boolean blockRename;
@@ -88,6 +89,7 @@ public class MobsManager implements Manager<CustomMob>, Listener, Tickable, Conf
     public void reload(ConfigurationSection cfg) {
         chance = cfg.getDouble("try-chance", 50) / 100;
         blockRename = cfg.getBoolean("restrict-rename", false);
+        yMin = cfg.getInt("y-min", -64);
         yMax = cfg.getInt("y-max", 64);
 
         int maxLight = cfg.getInt("max-light-level", 16);
@@ -247,6 +249,7 @@ public class MobsManager implements Manager<CustomMob>, Listener, Tickable, Conf
         if (disabled || reason != CreatureSpawnEvent.SpawnReason.NATURAL ||
                 !replaceTypes.contains(type) ||
                 !lightCheck.test(loc) ||
+                loc.getBlockY() < yMin ||
                 loc.getBlockY() > yMax ||
                 !worlds.contains(loc.getWorld().getName()) ||
                 !Locations.isCave(loc) ||

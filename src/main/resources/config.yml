@@ -225,6 +225,8 @@ mobs:
   worlds:
     - world
 
+  # Minimal and maximal Y coordinate where custom mobs can spawn
+  y-min: -60
   # Maximal Y coordinate where custom mobs can spawn
   y-max: 64
 
